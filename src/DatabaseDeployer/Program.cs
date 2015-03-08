@@ -20,12 +20,15 @@ namespace DatabaseDeployer
             bool noArgs = !args.Any();
 
             ConnectionStringSettings connectionStringSettings = ConnectionStrings.Get();
+
+            Console.WriteLine(connectionStringSettings.ConnectionString);
             MsSqlConfiguration databaseConfiguration =
                 MsSqlConfiguration.MsSql2008.ShowSql().ConnectionString(
                     x => x.Is(connectionStringSettings.ConnectionString))
                     .Dialect<MsSqlAzureDialect>();
 
             CreateDatabaseIfNotExists(connectionStringSettings);
+
 
             DomainDrivenDatabaseDeployer.DatabaseDeployer dd = null;
             ISessionFactory sessionFactory = new SessionFactoryBuilder(new MappingScheme(), databaseConfiguration, new EntityInterceptor())
